@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "684477513597",
+    "firebase_url": "https://plant-diseases-classifier-default-rtdb.firebaseio.com",
+    "project_id": "plant-diseases-classifier",
+    "storage_bucket": "plant-diseases-classifier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684477513597:android:9cbb9a79af3e944c47d614",
+        "android_client_info": {
+          "package_name": "com.dhanu.farmy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6GKUgSSc-iOqkLRjHvxH4gBHUavaNI9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684477513597:android:6cfba212e9bc1b4a47d614",
+        "android_client_info": {
+          "package_name": "com.dsstudio.farmy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684477513597-dd4r27sf11jkkipf22552orot6oqi328.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dsstudio.farmy",
+            "certificate_hash": "9fd39729c673f4ef2853742dd11f1f6d78dd95c7"
+          }
+        },
+        {
+          "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6GKUgSSc-iOqkLRjHvxH4gBHUavaNI9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684477513597:android:49eee3bdac0b7f3a47d614",
+        "android_client_info": {
+          "package_name": "com.example.mobileapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6GKUgSSc-iOqkLRjHvxH4gBHUavaNI9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684477513597-rt5j4s44hiuaek91abruk2jakcaqcd9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
