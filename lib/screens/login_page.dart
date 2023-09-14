@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
           toastLength: Toast.LENGTH_SHORT,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
-          textColor: Colors.white,
+          textColor: kTextColor,
           fontSize: 16.0,
         );
       }
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
         toastLength: Toast.LENGTH_SHORT,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.red,
-        textColor: Colors.white,
+        textColor: kTextColor,
         fontSize: 16.0,
       );
     }
