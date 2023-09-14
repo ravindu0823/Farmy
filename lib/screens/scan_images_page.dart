@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:farmy/components/header.dart';
+import 'package:farmy/constants.dart';
+import 'package:farmy/screens/treatments_page.dart';
 import 'package:farmy/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +19,29 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
   Api api = Api();
   final ImagePicker _picker = ImagePicker();
   File? imageFile;
+  bool isImageLoaded = false;
+
+  void uploadImage(File imageFile) async {
+    String result = await api.upload(imageFile);
+
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.info,
+      animType: AnimType.bottomSlide,
+      title: 'Detected Disease',
+      desc: 'This plant has a $result disease',
+      btnCancelOnPress: () {},
+      btnOkText: "View Treatments",
+      btnOkOnPress: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TreatmentsPage(),
+          ),
+        );
+      },
+    )..show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +55,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
               bottom: 15,
             ),
             child: FloatingActionButton(
-              backgroundColor: Colors.lightGreen,
+              backgroundColor: kPrimaryColor,
               heroTag: "btn1",
               onPressed: () async {
                 final XFile? image = await _picker.pickImage(
@@ -40,6 +67,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                 if (image != null) {
                   setState(() {
                     imageFile = File(image.path);
+                    isImageLoaded = true;
                   });
                 }
               },
@@ -49,7 +77,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
             ),
           ),
           FloatingActionButton(
-            backgroundColor: Colors.lightGreen,
+            backgroundColor: kPrimaryColor,
             heroTag: "btn2",
             onPressed: () async {
               final XFile? image = await _picker.pickImage(
@@ -61,6 +89,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
               if (image != null) {
                 setState(() {
                   imageFile = File(image.path);
+                  isImageLoaded = true;
                 });
               }
             },
@@ -73,28 +102,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('images/logo.png'),
-                  width: 120,
-                ),
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 30,
-                    left: 20,
-                  ),
-                  child: Text(
-                    'Farmy',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            Header(),
             Container(
               margin: EdgeInsets.symmetric(
                 vertical: 25,
@@ -115,7 +123,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.lightGreen,
+                            color: kPrimaryColor,
                             width: 4,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -130,18 +138,15 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                           ),
                         ),
                       ),
-                      Text(
-                        "Disease Name",
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
                     ],
                   )
                 : Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.lightGreen,
+                        color: kPrimaryColor,
                         width: 3,
                       ),
                       borderRadius: BorderRadius.circular(20),
@@ -150,14 +155,20 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                     width: 300,
                     child: Center(
                       child: Text(
-                        "No image selected",
+                        "No image selected.\nPlease Upload an Image",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
             ElevatedButton(
-              onPressed: () {
-                api.upload(imageFile!);
-              },
+              onPressed: isImageLoaded
+                  ? () async {
+                      uploadImage(imageFile!);
+                    }
+                  : null,
               child: Text("Upload Image"),
             ),
           ],
