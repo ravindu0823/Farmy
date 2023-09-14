@@ -1,10 +1,14 @@
 import 'package:farmy/constants.dart';
 import 'package:farmy/screens/scan_images_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 import '../components/disease_item_widget.dart';
 import '../components/header.dart';
+
+SessionManager sessionManager = SessionManager();
+final DatabaseReference ref = FirebaseDatabase.instance.ref();
 
 class ScannedDiseasesWidget extends StatefulWidget {
   const ScannedDiseasesWidget({
@@ -16,7 +20,20 @@ class ScannedDiseasesWidget extends StatefulWidget {
 }
 
 class _ScannedDiseasesWidgetState extends State<ScannedDiseasesWidget> {
-  SessionManager sessionManager = SessionManager();
+  String username = "";
+
+  Future<void> diseaseData() async {
+    var data = await sessionManager.get("username");
+    setState(() {
+      username = data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    diseaseData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +52,8 @@ class _ScannedDiseasesWidgetState extends State<ScannedDiseasesWidget> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.symmetric(
-                horizontal: 100,
-              ),
-              children: [
-                DiseaseItemWidget(
-                  diseaseName: "Disease 1",
-                  scannedDate: "Date 1",
-                ),
-                DiseaseItemWidget(
-                  diseaseName: "Disease 2",
-                  scannedDate: "Date 2",
-                ),
-                DiseaseItemWidget(
-                  diseaseName: "Disease 3",
-                  scannedDate: "Date 3",
-                ),
-              ],
-            ),
+          DiseaseStreamWidget(
+            username: username,
           ),
           ElevatedButton(
             onPressed: () {
@@ -84,6 +83,48 @@ class _ScannedDiseasesWidgetState extends State<ScannedDiseasesWidget> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DiseaseStreamWidget extends StatelessWidget {
+  final String username;
+
+  const DiseaseStreamWidget({super.key, required this.username});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: ref.child("Diseases/$username").onValue,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<DiseaseItemWidget> diseaseWidgets = [];
+          for (DataSnapshot dataSnapshot in snapshot.data!.snapshot.children) {
+            var temp = dataSnapshot.key!.split("_");
+            var diseaseName = temp.join(" ");
+            final widget = DiseaseItemWidget(
+              diseaseName: diseaseName,
+              scannedDate: dataSnapshot.value.toString(),
+            );
+            diseaseWidgets.add(widget);
+          }
+
+          return Expanded(
+            child: ListView(
+              padding: EdgeInsets.symmetric(
+                horizontal: 100,
+              ),
+              children: diseaseWidgets,
+            ),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightGreenAccent,
+            ),
+          );
+        }
+      },
     );
   }
 }
