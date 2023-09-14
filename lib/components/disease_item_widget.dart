@@ -1,8 +1,14 @@
+import 'package:farmy/constants.dart';
 import 'package:flutter/material.dart';
 
 class DiseaseItemWidget extends StatelessWidget {
+  final String diseaseName;
+  final String scannedDate;
+
   const DiseaseItemWidget({
     super.key,
+    required this.diseaseName,
+    required this.scannedDate,
   });
 
   @override
@@ -14,7 +20,7 @@ class DiseaseItemWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         side: BorderSide(
           width: 3,
-          color: Colors.greenAccent.shade400,
+          color: kBorderColor,
         ),
         borderRadius: BorderRadius.circular(20),
       ),
@@ -32,14 +38,14 @@ class DiseaseItemWidget extends StatelessWidget {
                 top: 10,
               ),
               child: Text(
-                "Disease Name",
+                diseaseName,
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
             Text(
-              "Scanned Date",
+              scannedDate,
               style: TextStyle(
                 fontSize: 16,
               ),
