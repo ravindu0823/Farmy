@@ -1,20 +1,21 @@
+import 'package:farmy/constants.dart';
 import 'package:path/path.dart';
-import 'package:async/async.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Api {
-  upload(File imageFile) async {
+  Future<dynamic> upload(File imageFile) async {
     final params = {
-      "api_key": "1aUytlKd2gJXUZSDSJZO",
+      "api_key": API_KEY,
     };
     final Uri uri = Uri.https(
         "detect.roboflow.com", "/plant_disease_classifier3/1", params);
 
     // open a bytestream
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    /*var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));*/
+    var stream = new http.ByteStream(Stream.castFrom(imageFile.openRead()));
     // get file length
     var length = await imageFile.length();
 
@@ -30,12 +31,15 @@ class Api {
 
     // send
     var response = await request.send();
-    print(response.statusCode);
+    // print(response.statusCode);
 
-    // listen for response
-    response.stream.transform(utf8.decoder).listen((value) {
-      var jsonValue = jsonDecode(value);
-      print(jsonValue["predictions"]);
-    });
+    // Check if the response status code is OK (200) before decoding
+    if (response.statusCode == 200) {
+      var jsonValue = await http.Response.fromStream(response);
+      var jsonData = jsonDecode(jsonValue.body);
+      return jsonData["predictions"][0]["class"];
+    } else {
+      throw Exception('Failed to upload image: ${response.statusCode}');
+    }
   }
 }
