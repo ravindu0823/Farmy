@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+const API_KEY = "1aUytlKd2gJXUZSDSJZO";
+const kPrimaryColor = Colors.lightGreen;
+final kBorderColor = Colors.greenAccent.shade400;
+const kTextColor = Colors.white;
+
 final kInputTextField = InputDecoration(
   prefixIcon: null,
   prefixIconColor: Colors.grey,
