@@ -20,6 +20,7 @@ dependencies:
   image_picker: ^1.0.4
   flutter_speed_dial: ^7.0.0
   http: ^1.1.0
+  awesome_dialog: ^3.1.0
 
 dev_dependencies:
   flutter_test:
