@@ -5,7 +5,9 @@ import 'package:farmy/components/header.dart';
 import 'package:farmy/constants.dart';
 import 'package:farmy/screens/treatments_page.dart';
 import 'package:farmy/services/api.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ScanImagesPage extends StatefulWidget {
@@ -21,26 +23,38 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
   File? imageFile;
   bool isImageLoaded = false;
 
+  SessionManager sessionManager = SessionManager();
+  final DatabaseReference ref = FirebaseDatabase.instance.ref();
+
   void uploadImage(File imageFile) async {
     String result = await api.upload(imageFile);
 
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.info,
-      animType: AnimType.bottomSlide,
-      title: 'Detected Disease',
-      desc: 'This plant has a $result disease',
-      btnCancelOnPress: () {},
-      btnOkText: "View Treatments",
-      btnOkOnPress: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TreatmentsPage(),
-          ),
-        );
-      },
-    )..show();
+    result != ""
+        ? AwesomeDialog(
+            context: context,
+            dialogType: DialogType.info,
+            animType: AnimType.bottomSlide,
+            title: 'Detected Disease',
+            desc: 'This plant has a $result disease',
+            btnCancelOnPress: () {},
+            btnOkText: "View Treatments",
+            btnOkOnPress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TreatmentsPage(),
+                ),
+              );
+            },
+          ).show()
+        : AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.bottomSlide,
+            title: 'Cannot Detect Disease',
+            desc: 'Please Try again with a different image',
+            btnOkOnPress: () {},
+          ).show();
   }
 
   @override
@@ -71,7 +85,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                   });
                 }
               },
-              child: Icon(
+              child: const Icon(
                 Icons.camera_alt,
               ),
             ),
@@ -93,7 +107,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                 });
               }
             },
-            child: Icon(
+            child: const Icon(
               Icons.photo,
             ),
           ),
@@ -102,23 +116,14 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Header(),
-            Container(
-              margin: EdgeInsets.symmetric(
-                vertical: 25,
-              ),
-              child: Text(
-                "Scan Images",
-                style: TextStyle(
-                  fontSize: 23,
-                ),
-              ),
+            const Header(
+              title: 'Scan Images',
             ),
             imageFile != null
                 ? Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           bottom: 20,
                         ),
                         decoration: BoxDecoration(
@@ -141,7 +146,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                     ],
                   )
                 : Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                       bottom: 20,
                     ),
                     decoration: BoxDecoration(
@@ -153,7 +158,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                     ),
                     height: 300,
                     width: 300,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "No image selected.\nPlease Upload an Image",
                         textAlign: TextAlign.center,
@@ -169,7 +174,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
                       uploadImage(imageFile!);
                     }
                   : null,
-              child: Text("Upload Image"),
+              child: const Text("Upload Image"),
             ),
           ],
         ),

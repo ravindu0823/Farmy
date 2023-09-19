@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const API_KEY = "1aUytlKd2gJXUZSDSJZO";
+const API_KEY = "MpLsvha6rvJBeHW6XWaz";
 const kPrimaryColor = Colors.lightGreen;
 final kBorderColor = Colors.greenAccent.shade400;
 const kTextColor = Colors.white;

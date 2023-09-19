@@ -40,17 +40,8 @@ class _ScannedDiseasesWidgetState extends State<ScannedDiseasesWidget> {
     return SafeArea(
       child: Column(
         children: [
-          Header(),
-          Container(
-            margin: EdgeInsets.symmetric(
-              vertical: 20,
-            ),
-            child: Text(
-              "Scanned Diseases",
-              style: TextStyle(
-                fontSize: 23,
-              ),
-            ),
+          const Header(
+            title: 'Scanned Diseases',
           ),
           DiseaseStreamWidget(
             username: username,
