@@ -1,5 +1,6 @@
 import 'package:farmy/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DiseaseItemWidget extends StatelessWidget {
   final String diseaseName;
@@ -39,14 +40,14 @@ class DiseaseItemWidget extends StatelessWidget {
               ),
               child: Text(
                 diseaseName,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
                 ),
               ),
             ),
             Text(
               scannedDate,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
               ),
             ),
