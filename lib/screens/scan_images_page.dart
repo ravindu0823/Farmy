@@ -28,6 +28,7 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
 
   void uploadImage(File imageFile) async {
     String result = await api.upload(imageFile);
+    String resultTrimmed = result.replaceAll("_", " ");
 
     result != ""
         ? AwesomeDialog(
@@ -35,14 +36,16 @@ class _ScanImagesPageState extends State<ScanImagesPage> {
             dialogType: DialogType.info,
             animType: AnimType.bottomSlide,
             title: 'Detected Disease',
-            desc: 'This plant has a $result disease',
+            desc: 'This plant has a $resultTrimmed disease',
             btnCancelOnPress: () {},
             btnOkText: "View Treatments",
             btnOkOnPress: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TreatmentsPage(),
+                  builder: (context) => TreatmentsPage(
+                    diseaseName: result,
+                  ),
                 ),
               );
             },
