@@ -38,7 +38,6 @@ class Api {
       var jsonValue = await http.Response.fromStream(response);
       var jsonData = jsonDecode(jsonValue.body);
       var className = jsonData["predictions"][0]["class"];
-      className = className.replaceAll("_", " ");
       return className;
     } else {
       throw Exception('Failed to upload image: ${response.statusCode}');
